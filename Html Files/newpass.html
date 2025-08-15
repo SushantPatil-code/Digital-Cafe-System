@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="Stylesheet" href="newpassword.css">
+    <script type="text/javascript">
+        function pass() {
+            var a = document.getElementById("new").value;
+            var s = document.getElementById("confrim").value;
+            localStorage.setItem('password', s);
+
+            if (a == "") {
+                alert("Please Enter The New password");
+            } else if (s == "") {
+                alert("Please Enter The Confrim");
+            }else if(a!=s){
+                alert("Confirm password is wrong");
+            } else {
+                alert("Password Is Created Succssfully");
+                window.open("login.html");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="form">
+        <from>
+            <h2 class="header"> Create A New Password</h2>
+            <br>
+            <label>Change password : </label> <input type="password" value="" name="New password"
+                placeholder="Change Password" id="new"><br>
+           
+            <br><br>
+            <label>Confrim password : </label><input type="password" value="" name="Confirm password"
+                placeholder="Confirm Password" id="confrim">
+            <br><br>
+            <br>
+            <input class="button" type="button" value="Done" name="Done" onclick="pass()">
+        </from>
+    </div>
+    
+</body>
+</head>
+
+</html>

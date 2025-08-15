@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="Stylesheet" href="login.css">
+    <script type="text/javascript">
+        function login() {
+            var u = document.getElementById("user").value;
+            var p = document.getElementById("pass").value;
+            if (u == "") {
+                alert("Please Enter the Username");
+            } else if (p == "") {
+                alert("Please Enter the password");
+            } else {
+                alert("login succssfully");
+                window.open("admin.html")
+            }
+        }
+        if (u=!simran) {
+            alert("Please Enter the Username");
+        } else if (p=!pass*123) {
+            alert("Please Enter the password");
+        } else {
+            alert("login succssfully");
+            window.open("admin.html")
+
+        }
+
+    </script>
+
+<body>
+    <div class="form">
+
+    <center>
+        <from>
+            <h2 class="header ">Admin Login Page</h2>
+           <label> Username:-</label><input type="text" value="" name="username" placeholder="Enter The username" id="user"><br>
+            <br>
+          <label> Password:-</label><input type="text" value="" name="password" placeholder="Enter The password" id="pass"><br>
+            <br>
+            <input class="button" type="button" value="Login" name="login" onclick="login()">
+
+        </from>
+    </center>
+</body>
+</head>
+
+</html>

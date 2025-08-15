@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart - Cafe27</title>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .cart-container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .cart-item img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-right: 15px;
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .item-price {
+      color: #555;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 18px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .clear-btn, .back-btn, .save-cart-button {
+      background: #2196f3;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .clear-btn {
+      background: #f44336;
+    }
+
+    .save-cart-button {
+      display: block;
+      margin: 10px auto;
+      background-color: #ff5722;
+      font-size: 16px;
+    }
+
+    /* Flexbox container for Save Cart and Booking Table buttons */
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px; /* Add some space between the buttons */
+      margin-top: 20px;
+      margin-left: 500px;
+      margin-right: 500px;
+      text-align: center;
+    }
+
+    .button-container button {
+      width: 48%; /* Ensures both buttons take up equal width */
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Your Cart</h1>
+  <div class="cart-container" id="cart-container">
+    <!-- Cart items will appear here -->
+  </div>
+
+  <!-- Button Container for Save Cart and Booking Table -->
+  <div class="button-container">
+    <!-- Save Cart Button -->
+    <button class="save-cart-button" onclick="saveCartToFirebase()">Save Cart</button>
+    
+    <!-- Table Booking Button -->
+    <button class="save-cart-button"><a href="tablebooking.html">Booking table</a></button>
+  </div>
+
+  <!-- Back To Menu Button -->
+  <div style="text-align: center; margin-top: 20px;">
+    <button class="save-cart-button"><a href="menu.html">Back To Menu</a></button>
+  </div>
+
+  <script>
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyB22ybnr73U6ya6i64Cxkknp8gyiwviNAo",
+      authDomain: "cafe27-e5048.firebaseapp.com",
+      databaseURL: "https://cafe27-e5048-default-rtdb.firebaseio.com",
+      projectId: "cafe27-e5048",
+      storageBucket: "cafe27-e5048.appspot.com",
+      messagingSenderId: "806819987050",
+      appId: "1:806819987050:web:f028aebbbb7a3ba69a5413",
+      measurementId: "G-0CCLVWEG02"
+    };
+
+    // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+
+    const cartContainer = document.getElementById("cart-container");
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Show cart items
+    if (cart.length === 0) {
+      cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+    } else {
+      let total = 0;
+
+      cart.forEach(item => {
+        total += item.price;
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = ` 
+          <img src="${item.image}" alt="${item.name}">
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-price">₹${item.price}</div>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      // Total
+      const totalDiv = document.createElement("div");
+      totalDiv.className = "total";
+      totalDiv.textContent = `Total: ₹${total}`;
+      cartContainer.appendChild(totalDiv);
+
+      // Clear Cart
+      const clearBtn = document.createElement("button");
+      clearBtn.textContent = "Clear Cart";
+      clearBtn.className = "clear-btn";
+      clearBtn.onclick = () => {
+        localStorage.removeItem("cart");
+        location.reload();
+      };
+      cartContainer.appendChild(clearBtn);
+    }
+
+    // 🔽 Get User's Email from Firebase Authentication
+    function getUserEmail(uid) {
+      return auth.currentUser.email; // Get the email directly from Firebase Auth
+    }
+
+    // 🔽 Save Cart to Firebase with User Info (Email)
+    function saveCartToFirebase() {
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert("You must be logged in to save your cart.");
+        return;
+      }
+
+      if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+      }
+
+      const userEmail = getUserEmail(user.uid); // Get the user's email
+
+      const cartId = `cart_${Date.now()}`;
+
+      database.ref('carts/' + cartId).set({
+        userId: user.uid,
+        userEmail: userEmail, // Save email instead of name
+        timestamp: new Date().toISOString(),
+        items: cart
+      }).then(() => {
+        alert('Cart saved to Firebase!');
+      }).catch((error) => {
+        console.error("Error saving cart:", error);
+        alert("Failed to save cart.");
+      });
+    }
+  </script>
+
+</body>
+</html>

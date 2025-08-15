@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe27 Table Booking</title>
+    <link rel="stylesheet" href="TableBooking.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+    <script type="text/javascript">
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyB22ybnr73U6ya6i64Cxkknp8gyiwviNAo",
+            authDomain: "cafe27-e5048.firebaseapp.com",
+            databaseURL: "https://cafe27-e5048-default-rtdb.firebaseio.com",
+            projectId: "cafe27-e5048",
+            storageBucket: "cafe27-e5048.appspot.com",
+            messagingSenderId: "806819987050",
+            appId: "1:806819987050:web:f028aebbbb7a3ba69a5413",
+            measurementId: "G-0CCLVWEG02"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app);
+        const auth = firebase.auth();
+
+        let user = null;
+        auth.onAuthStateChanged(function (currentUser) {
+            if (currentUser) {
+                user = currentUser;
+                console.log("User is logged in:", user.email);
+            } else {
+                console.log("No user logged in");
+            }
+        });
+
+        function validateDateTime() {
+            var today = new Date();
+            var todayStr = today.toISOString().split("T")[0];
+            var selectedDate = document.getElementById("EF").value;
+            var selectedTime = document.getElementById("GH").value;
+
+            if (selectedDate < todayStr) {
+                alert("Please select a valid date (Today or future).");
+                return false;
+            }
+
+            if (selectedTime !== "") {
+                var [hours, minutes] = selectedTime.split(":");
+                var selectedHour = parseInt(hours);
+                if (selectedHour < 9 || selectedHour > 22) {
+                    alert("Please select a time between 9:00 AM and 10:00 PM.");
+                    return false;
+                }
+            } else {
+                alert("Please set your time.");
+                return false;
+            }
+
+            return true;
+        }
+
+        function booking(event) {
+            event.preventDefault();
+
+            if (!user) {
+                alert("Please log in to book a table.");
+                return;
+            }
+
+            var numPeople = document.getElementById("AB").value;
+            var tableNumber = document.getElementById("CD").value;
+            var bookingDate = document.getElementById("EF").value;
+            var bookingTime = document.getElementById("GH").value;
+            var comment = document.getElementById("IJ").value;
+
+            if (numPeople == "0") {
+                alert("Please select the number of people.");
+                return;
+            }
+            if (tableNumber == "0") {
+                alert("Please select a table number.");
+                return;
+            }
+            if (bookingDate == "" || bookingTime == "") {
+                if (!validateDateTime()) return;
+            }
+            if (comment == "") {
+                alert("Please mention your comment.");
+                return;
+            }
+
+            const bookingId = `booking_${Date.now()}`;
+
+            database.ref('cards/' + bookingId).set({
+                numPeople: numPeople,
+                tableNumber: tableNumber,
+                bookingDate: bookingDate,
+                bookingTime: bookingTime,
+                comment: comment
+            }).then(() => {
+                alert(`Booking confirmed for table number ${tableNumber} on ${bookingDate} at ${bookingTime}.`);
+                window.location.href = "booking.html";
+            }).catch((error) => {
+                console.error("Error saving booking:", error);
+                alert("Failed to save booking.");
+            });
+        }
+
+        window.onload = function () {
+            document.getElementById("EF").setAttribute("min", new Date().toISOString().split("T")[0]);
+        };
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="heading1">
+            <img class="logo" src="images/cagelogo.png">
+            <h1>Cafe27</h1>
+        </div>
+
+        <h3 class="sub-header"><a href="Homepage.html">Home</a></h3>
+        <h3><a class="a" href="tablebooking.html">TableBooking</a></h3>
+        <h3><a class="a" href="menu.html">Menu</a></h3>
+        <h3><a hidden href="login.html">Login</a></h3>
+        <h3><a hidden href="signup.html">Signup</a></h3>
+    </div>
+
+    <section id="page-header">
+        <div class="border">
+            <h3>#BOOKTABLE</h3>
+            <p>Save more with coupons & UP to 70% OFF!</p><br><br>
+        </div>
+    </section>
+
+    <section class="sec-body">
+        <div>
+            <video src="images/videoT4.mp4" autoplay loop muted></video>
+        </div>
+
+        <div class="booking">
+            <center>
+                <form name="alpha" method="post" onsubmit="booking(event)">
+                    <h3 class="heading1">Welcome To The CAFE27</h3>
+                    <h1 class="heading2">Table Booking</h1>
+
+                    <h4 class="msg1">Number of People:
+                        <select class="msg2" id="AB">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                    </h4>
+
+                    <h4 class="msg3">Table Number:
+                        <select class="msg4" id="CD">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                    </h4>
+
+                    <br><input type="date" id="EF" required><br><br>
+                    <input type="time" id="GH" class="msg6" required><br><br>
+
+                    Leave a comment or special request:<br>
+                    <textarea class="msg5" rows="5" cols="32" placeholder="Customer requirement" id="IJ"></textarea><br>
+                    <input type="checkbox" checked>Confirm booking<br><br>
+
+                    <input type="reset" value="Reset" class="button1">
+                    <input type="submit" value="Submit" class="button2">
+                </form>
+            </center>
+        </div>
+    </section>
+
+    <section class="Footer">
+        <div class="border">
+            <h3>#Let's_Talk</h3>
+            <p>LEAVE A MESSAGE , We love to hear from you...!</p><br><br>
+        </div>
+        <div class="contact">
+            <p><a>Contact : 8600861264 </a><br><br>
+                <a>Email : Cafe27@gmail.com</a>
+            </p>
+            <p><a>Instagram : Cafe27</a><br><br>
+                <a>Youtube : Cafe Center 27 </a>
+            </p>
+        </div>
+        <div class="form">
+            <input type="text" placeholder="Leave Message">
+            <button class="normal">Submit</button>
+        </div>
+    </section>
+</body>
+
+</html>

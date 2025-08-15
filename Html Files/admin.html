@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="Stylesheet" href="admin.css">
+        <script type="text/javascript">
+            function booking(){
+                var a=document.getElementById("AB").value;
+                var b=document.getElementById("CD").value;
+                var c=document.getElementById("EF").value;  
+               if(a==""){
+                  alert("Please Enter The Date");
+                }else if(b==""){
+                    alert("Please Enter The Time");
+                }else if(c==""){
+                    alert("Your Table Number");
+                }else{
+                    alert("successfully booking");
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="admin">
+        <center>
+            <from>
+                <h2 class="heading1"> Cafe 27</h2><hr class="line">
+                <h3 class="heading2">Table Booking details</h3>
+                <input type="date"id="AB" class="msg1"><br>
+                <br>
+                <input type="time"id="CD" class="msg1"><br>
+                <br>
+                Table Number : <input type="text"value=""size="2"id="EF" class="msg2"><br>
+                <br>
+                 <input type="button"name="Save"value="Save"onclick="booking()" class="save"> 
+                 <input type="reset"name="delete"value="Delete"onclick="booking()" class="delete">         
+            </from>
+        </div>
+        </center>
+        </div>
+    </body>
+</html>

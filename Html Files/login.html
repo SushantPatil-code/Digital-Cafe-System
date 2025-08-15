@@ -1,0 +1,124 @@
+</html>
+ 
+  <link rel="stylesheet" href="Stylesheet.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <div class="header">
+    <div class="heading1">
+      <img class="logo" src="images/cagelogo.png">
+      <h1 class="title">Cafe27</h1>
+    </div>
+    <h3 class="sub-header"><a href="Homepage.html">Home</a></h3>
+    <h3><a hidden href="tablebooking.html">TableBooking</a></h3>
+    <h3><a href="login.html">Login</a></h3>
+    <h3><a class="ab" href="singup.html">Signup</a></h3>
+  </div>
+
+  <div class="video">
+    <video autoplay loop muted src="images/videoT3.mp4" height="500px" width="600px"></video>
+  </div>
+
+  <center>
+    <div class="loginC">
+      <form name="alpha" action="#" method="post">
+        <center>
+          <h1>LOGIN</h1>
+          <h5 class="msg">WELCOME TO CAFE27</h5>
+        </center>
+        <label>E-mail :- </label>
+        <input class="Input" type="text" placeholder="Enter The E-mail" id="user"><br><br>
+
+        <label class="passlable">Password :- </label>
+        <input type="password" class="Input-field" id="pass" placeholder="Password">
+        <i id="icon" class="fa-solid fa-eye"></i><br>
+
+        <a class="new" href="newpass.html">Forget Password?</a><br>
+        <input class="button" type="button" value="Sign in" onclick="login()">
+
+        <h4 class="singup">Don't have an account?
+          <a href="singup.html" class="login">SIGN UP</a>
+        </h4>
+      </form>
+    </div>
+  </center>
+
+  <section class="Footer">
+    <div class="border">
+      <h3>#Let's_Talk</h3>
+      <p>LEAVE A MESSAGE, We love to hear from you...!</p><br><br>
+    </div>
+    <div class="contact">
+      <p><a>Contact: 8600861264</a><br><br>
+         <a>Email: Cafe27@gmail.com</a></p>
+      <p><a>Instagram: Cafe27</a><br><br>
+         <a>Youtube: Cafe Center</a></p>
+    </div>
+    <div class="form">
+      <input type="text" placeholder="Leave Message">
+      <button class="normal">Submit</button>
+    </div>
+  </section>
+
+  <!-- Firebase Modular SDK with login logic -->
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB22ybnr73U6ya6i64Cxkknp8gyiwviNAo",
+      authDomain: "cafe27-e5048.firebaseapp.com",
+      databaseURL: "https://cafe27-e5048-default-rtdb.firebaseio.com",
+      projectId: "cafe27-e5048",
+      storageBucket: "cafe27-e5048.appspot.com",
+      messagingSenderId: "806819987050",
+      appId: "1:806819987050:web:f028aebbbb7a3ba69a5413",
+      measurementId: "G-0CCLVWEG02"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Login Function
+    window.login = function () {
+      const email = document.getElementById("user").value;
+      const password = document.getElementById("pass").value;
+
+      // Check if email and password exist in localStorage
+      const storedEmail = localStorage.getItem("username");
+      const storedPassword = localStorage.getItem("password");
+
+      if (email === storedEmail && password === storedPassword) {
+        // Local storage match - Login successful
+        alert("Login successful!");
+        window.location.href = "tablebooking.html"; // Redirect to tablebooking page
+      } else {
+        // If no localStorage match, use Firebase authentication
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            alert("Login successful!");
+            window.location.href = "tablebooking.html"; // Redirect to tablebooking page on Firebase login
+          })
+          .catch((error) => {
+            alert("Error: " + error.message); // Show Firebase error message
+          });
+      }
+    };
+  </script>
+
+  <!-- Password Show/Hide Toggle -->
+  <script>
+    let pass = document.getElementById("pass");
+    let icon = document.getElementById("icon");
+    icon.addEventListener("click", () => {
+      pass.type = pass.type === "password" ? "text" : "password";
+      icon.className = icon.className.includes("fa-eye") ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+    });
+  </script>
+</body>
+
+</html>

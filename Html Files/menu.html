@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu - Cafe27</title>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .menu-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .menu-card {
+      background: white;
+      width: 280px;
+      padding-bottom: 10px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .menu-card h3, .menu-card p {
+      margin: 10px 0;
+    }
+
+    .menu-card button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .save-cart-button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 24px;
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .go-to-cart-link {
+      text-decoration: none;
+    }
+
+    .go-to-cart-link button {
+      background-color: #3f51b5;
+    }
+
+    nav{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #4CAF50;
+    }
+
+    ul{
+      display: flex;
+      list-style: none;
+      gap: 100px;
+      font-weight: bold;
+    }
+
+    ul li a{
+      font-family: Arial, sans-serif;
+      text-decoration: none;
+      color: white;
+    }
+
+    *{
+      margin:  0px;
+      padding: 5px 0 5px 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="Homepage.html">HOME</a></li>
+      <li><a href="singup.html">SIGN UP</a></li>
+      <li><a href="login.html">SIGN</a></li>
+      <li><a href="cart.html">CART</a></li>
+    </ul>
+  </nav>
+
+  <div class="menu-container">
+    <h1><b>Our Menu</b></h1>
+
+    <div class="menu-grid" id="menu-grid"></div>
+
+    <a class="go-to-cart-link" href="cart.html">
+      <button class="save-cart-button">Go to Cart</button>
+    </a>
+  </div>
+
+  <script>
+    // ✅ Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyB22ybnr73U6ya6i64Cxkknp8gyiwviNAo",
+      authDomain: "cafe27-e5048.firebaseapp.com",
+      databaseURL: "https://cafe27-e5048-default-rtdb.firebaseio.com",
+      projectId: "cafe27-e5048",
+      storageBucket: "cafe27-e5048.appspot.com",
+      messagingSenderId: "806819987050",
+      appId: "1:806819987050:web:f028aebbbb7a3ba69a5413",
+      measurementId: "G-0CCLVWEG02"
+    };
+
+    // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    const menuItems = [
+      { name: "Masala Chai", price: 25, image: "images/masala_chai.jpg" },
+      { name: "Veg Sandwich", price: 40, image: "images/sandwhich.jpg" },
+      { name: "Cold Coffee", price: 50, image: "images/cofee.jpg" },
+      { name: "Samosa", price: 20, image: "images/smosa.jpg" },
+      { name: "Veg Noodles", price: 60, image: "images/vegNoddle.jpg" },
+      { name: "Mini Pizza", price: 80, image: "images/pizza.jpg" },
+      { name: "Veg Burger", price: 50, image: "images/Burger.jpg" },
+      { name: "Ice Cream", price: 35, image: "images/icecreme1.jpg" },
+      { name: "Donut", price: 40, image: "images/donut.jpg" }
+    ];
+
+    const grid = document.getElementById('menu-grid');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    menuItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <h3>${item.name}</h3>
+        <p>₹${item.price}</p>
+        <button onclick='addToCart(${JSON.stringify(item)})'>Add to Cart</button>
+      `;
+      grid.appendChild(card);
+    });
+
+    function addToCart(item) {
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${item.name} added to cart!`);
+    }
+
+    function saveCartToFirebase() {
+      if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+      }
+
+      const cartId = `cart_${Date.now()}`;
+
+      // Structure data as item1, item2, ...
+      const structuredItems = {};
+      cart.forEach((item, index) => {
+        structuredItems[`item${index + 1}`] = item;
+      });
+
+      firebase.database().ref('carts/' + cartId).set({
+        timestamp: new Date().toISOString(),
+        items: structuredItems
+      }).then(() => {
+        alert('Cart saved to Firebase!');
+      }).catch((error) => {
+        console.error("Error saving cart:", error);
+      });
+    }
+  </script>
+</body>
+</html>

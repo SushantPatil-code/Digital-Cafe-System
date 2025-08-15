@@ -1,0 +1,280 @@
+img{
+    height: 590px;
+    width: 420px;
+    margin-top: 20px;
+    margin-left: 180px;
+    border-radius: 15px;
+}
+.heading1{
+    display: inline-flex;
+} 
+
+.logo{
+    margin-top: 11px;
+    margin-left: 20px;
+    height: 70px;
+    width: 70px;
+    border-radius: 45px;
+    padding-right: 2px;
+}
+h1{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: #eee8e8;
+    margin-top: 30px;
+    margin-left: 10px;
+}
+h3{
+    padding: 30px;
+    margin-top:0px;
+    padding-right: 70px;
+}
+h3 a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+}
+.header{
+    display: inline-flex;
+    margin-top: -10px;
+    margin-left: -10px;
+    padding-left: 10px;
+    background-color: #041e42;
+    width: 100.50%;
+
+}
+h3 a:hover{
+    color: rgb(123, 231, 231);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.sub-header{
+    margin-left: 300px;
+}
+
+.title{
+    color: #eee8e8;
+    margin-top: 30px;
+    margin-left: -90px;
+    display: inline-flex;
+ }
+.heading1{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: oblique;
+    font-size: 16px;
+    padding-left: 45px;
+    font-weight: 3000;
+    font-style: initial;
+}
+.Footer{
+    background-color: #041e42;
+    color: #fff;
+    margin-top: 0px;
+    margin-left: -8px;
+    margin-right: -8px;
+    margin-bottom: -8px;
+    padding-bottom: 15px;
+ }
+ 
+ .border{
+    text-align: center;
+ }
+ .border h3{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 40px;
+    margin-bottom: -34px;
+ }
+ .border p{
+    font-size: 17px;
+ }
+ .contact{
+    margin-left: 100px;
+    display: inline-flex;
+    padding-left: 100px;
+ }
+ .contact p{
+    padding-left: 180px;
+    font-size: 17px;
+    justify-content: space-between;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+ }
+ .form{
+    margin-left: 28%;
+    display: flex;
+    width: 50%;
+    text-align: center;
+ }
+ .form .normal{
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 30px;
+    color: #fff;
+    background-color: #088178;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    height: 46px;
+    margin-top: 10px;
+ }
+ .form input{
+    width: 70%;
+    border-radius: 12px;
+    height: 40px;
+    margin-top: 12px;
+    border: none;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 20px;
+    
+ }
+ .form .normal:hover {
+    background-color: #778bdb;
+    color: #000;
+ }
+ body{
+    background-color: rgb(132, 147, 197);
+ }h3 a:hover{
+    color: aqua;
+    font-style: oblique;
+}
+ .a{
+    padding-left: 100px;
+
+ }
+ #page-header{
+    background-image: url("images/image19.jpg");
+    width: 1350px;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 0px;
+    margin: -10px;
+    background-size: cover;
+    padding-bottom: 50px;
+}
+#page-header .border{
+    border: 3px solid #fff;
+    border-radius: 5px;
+    border-style: double;
+    padding: 10px;
+    margin: 0px 60px;
+    margin-top: 50px;
+    background-color: #041e428a;
+}
+#page-header h3,
+#page-header p{
+    color: #fff;
+    font-weight: bolder;
+}
+
+.booking {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h3.heading1 {
+    font-size: 28px;
+    color: #2c3e50;
+    font-weight: bold;
+    margin-bottom: -5px;
+}
+
+h1.heading2 {
+    font-size: 32px;
+    color: #3498db;
+    margin-top: 1px;
+    margin-bottom: 30px;
+    font-weight: normal;
+    padding-top: -50px;
+}
+
+h4 {
+    font-size: 18px;
+    margin: 15px 0;
+    color: #2c3e50;
+}
+
+.msg1, .msg3 {
+    font-weight: bold;
+}
+
+select, input[type="date"], input[type="time"], textarea {
+    width: 80%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="checkbox"] {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="reset"], input[type="submit"] {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+
+input[type="reset"]:hover, input[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+button {
+    cursor: pointer;
+}
+
+input[type="submit"] {
+    margin-left: 15px;
+    background-color: #2ecc71;
+}
+
+input[type="submit"]:hover {
+    background-color: #27ae60;
+}
+.sec-body{
+    display: flex;
+}
+.sec-body video{
+    margin-left: 50px;
+    margin-top: 52px;
+    border-radius: 12px;
+}
+.msg5{
+    height: 100px;
+}
+.video1{
+    margin-left: -8px;
+    display: flex;
+}
+.video1 video{
+    height: 381.5px;
+    margin-bottom: 0;
+}
